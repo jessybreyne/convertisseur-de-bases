@@ -5,24 +5,49 @@
 {% block body %}
     <h1>Bienvenue sur le meilleur convertisseur de bases</h1>
 
+
+    <blockquote>
+    <p><em>Convertir un nombre de base 2 à 62 vers base 2 à 62. -Jessy BREYNE</em></p>
+    </blockquote>
+
+
     <form action="/" method="post">
-        <label for="nb">Le nombre à convertir :</label>
-        <input id="nb" type="text" name="nb">
 
-        <label>De :</label>
-        <select name="initiale">
-            <option value="10" selected>Base 10</option> 
-            <option value="2">Base 2</option>
-            <option value="16">Base 16</option>
-        </select>
+        <div class="row">
+            <div class="column">
+                <label for="nb">Le nombre à convertir :</label>
+                <input id="nb" type="text" name="nb" required>
+            </div>
+        </div>
 
-        <label>Vers :</label>
-        <select name="finale">
-            <option value="10">Base 10</option> 
-            <option value="2" selected>Base 2</option>
-            <option value="16">Base 16</option>
-        </select>
+        <div class="row">
+            <div class="column">
+                <label for="initiale">De base :</label>
+                <input type="number" name="initiale" id="initiale" max="62" min="2" required>
+            </div>
+            <div class="column">
+                <label for="finale">Vers base :</label>
+                <input type="number" name="finale" id="finale" max="62" min="2" required>
+            </div>
+        </div>
 
-        <input type="submit" value="Convertir">
+        <div class="row" style="text-align: center;">
+            <div class="column">
+                <input type="submit" value="Convertir">
+            </div>
+        </div>
+
     </form>
+
+    
+
+    {% if erreur is defined %}
+        <h1>{{ erreur }}</h1>
+    {% endif %}
+
+    {% if resultat is defined %}
+        <h1>Le résultat est :</h1>
+        <pre><code><b>{{ nombre }}</b>({{ baseInitiale }}) = <b>{{ resultat }}</b>({{ baseFinale }})</code></pre>
+    {% endif %}
+    
 {% endblock %}
