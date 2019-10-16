@@ -37,11 +37,51 @@ class Convertisseur{
         }
     }
 
+    // prends un chiffre romain et donne son decimal
+    public function getDecimalDuNbRomain($romain){
+        $tab = str_split($romain, 1);
+        $res=0;
+        for ($i=0; $i < sizeof($tab); $i++) { 
+            if($tab[$i]=="M"){
+                $res+=1000;
+            }elseif($tab[$i]=="D"){
+                $res+=500;
+            }elseif($tab[$i]=="C"){
+                $res+=100;
+            }elseif($tab[$i]=="L"){
+                $res+=50;
+            }elseif($tab[$i]=="X"){
+                $res+=10;
+            }elseif($tab[$i]=="V"){
+                $res+=5;
+            }elseif($tab[$i]=="I"){
+                if(!isset($tab[$i+1])){
+                    $res+=1;
+                }elseif($tab[$i+1]!="I"){
+                    $res-=1;
+                }else{
+                    $res+=1;
+                }
+            }
+        }
+        return "".$res;
+    }
+
     // retourne une liste avec 1 si erreur, 0 si pas d'erreur et le resultat ou le message d'erreur
     public function getResultatConversion($baseInitiale, $baseFinale){
-        $problemeBaseInitiale = self::problemeBaseInitiale($baseInitiale);
+
+        if($baseInitiale=="romain"){
+            $nombreTraitable = self::getDecimalDuNbRomain($this->nb);
+            $problemeBaseInitiale = false;
+            $problemeBaseDuNombreDepart = false;
+            $baseInitiale = 10;
+        }else{
+            $nombreTraitable = $this->nb;
+            $problemeBaseInitiale = self::problemeBaseInitiale($baseInitiale);
+            $problemeBaseDuNombreDepart = self::problemeBaseDuNombreDepart($baseInitiale, $nombreTraitable);
+        }
+
         $problemeBaseFinale = self::problemeBaseFinale($baseFinale);
-        $problemeBaseDuNombreDepart = self::problemeBaseDuNombreDepart($baseInitiale, $this->nb);
 
         
         if($problemeBaseInitiale){
@@ -54,8 +94,11 @@ class Convertisseur{
             return array(1, $problemeBaseDuNombreDepart);
         }
         else{
-            $nombreDec = self::getBaseNvers10($baseInitiale, $this->nb);
+            $nombreDec = self::getBaseNvers10($baseInitiale, $nombreTraitable);
             $res = $this->signe."".self::getBase10versN($baseFinale, $nombreDec);
+            if($res=="" or $res=="-"){
+                $res="0";
+            }
             return array(0, $res);
         }
     }

@@ -52,6 +52,15 @@ class ConvertisseurTest extends TestCase{
     }
 
     /**
+     * Convertir 0 de base 10 vers base 10
+     */
+    public function test_convertisseur_base10_vers_base10_0()
+    {
+        $convert = new Convertisseur("0");
+        $this->assertEquals(array(0,"0"), $convert->getResultatConversion("10","10"));
+    }
+
+    /**
      * Convertir 1234 de base N vers base 10
      */
     public function test_convertisseur_baseN_vers_base10_1234()
@@ -124,6 +133,28 @@ class ConvertisseurTest extends TestCase{
         $this->assertEquals(array(1,"La base finale est incorrecte."), $convert->getResultatConversion("16","1"));
         $this->assertEquals(array(1,"La base finale est incorrecte."), $convert->getResultatConversion("2","1000"));
         $this->assertEquals(array(1,"La base finale est incorrecte."), $convert->getResultatConversion("10","64"));
+    }
+
+    /**
+     * Fonction de conversion des nombres romain en arabe
+     */
+    public function test_nombre_romain()
+    {
+        $convert = new Convertisseur("X");
+        $this->assertEquals("10", $convert->getDecimalDuNbRomain("X"));
+        $this->assertEquals("30", $convert->getDecimalDuNbRomain("XXX"));
+        $this->assertEquals("9", $convert->getDecimalDuNbRomain("IX"));
+        $this->assertEquals("11", $convert->getDecimalDuNbRomain("IXII"));
+        $this->assertEquals("85", $convert->getDecimalDuNbRomain("LXXXV"));
+    }
+
+    /**
+     * Convertisseur nombre romain en base 2
+     */
+    public function test_nombre_romain_vers_base_2()
+    {
+        $convert = new Convertisseur("X");
+        $this->assertEquals(array(0,"1010"), $convert->getResultatConversion("romain","2"));
     }
 
 }
