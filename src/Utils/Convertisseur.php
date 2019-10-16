@@ -39,18 +39,19 @@ class Convertisseur{
 
     // retourne une liste avec 1 si erreur, 0 si pas d'erreur et le resultat ou le message d'erreur
     public function getResultatConversion($baseInitiale, $baseFinale){
-        $problemeBaseDuNombreDepart = self::problemeBaseDuNombreDepart($baseInitiale, $this->nb);
         $problemeBaseInitiale = self::problemeBaseInitiale($baseInitiale);
         $problemeBaseFinale = self::problemeBaseFinale($baseFinale);
+        $problemeBaseDuNombreDepart = self::problemeBaseDuNombreDepart($baseInitiale, $this->nb);
 
-        if($problemeBaseDuNombreDepart){
-            return array(1, $problemeBaseDuNombreDepart);
-        }
-        elseif($problemeBaseInitiale){
+        
+        if($problemeBaseInitiale){
             return array(1, $problemeBaseInitiale);
         }
         elseif($problemeBaseFinale){
             return array(1, $problemeBaseFinale);
+        }
+        elseif($problemeBaseDuNombreDepart){
+            return array(1, $problemeBaseDuNombreDepart);
         }
         else{
             $nombreDec = self::getBaseNvers10($baseInitiale, $this->nb);

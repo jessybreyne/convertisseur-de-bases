@@ -83,6 +83,49 @@ class ConvertisseurTest extends TestCase{
         $this->assertEquals(array(0,"-4660"), $convert->getResultatConversion("16","10"));
     }
 
+    /**
+     * Convertir 1ab65e de base 16 vers base N
+     */
+    public function test_convertisseur_base16_vers_baseN_1ab65e()
+    {
+        $convert = new Convertisseur("1ab65e");
+        $this->assertEquals(array(0,"110101011011001011110"), $convert->getResultatConversion("16","2"));
+        $this->assertEquals(array(0,"1750622"), $convert->getResultatConversion("16","10"));
+    }
+
+    /**
+     * Probleme le nombre de depart est pas dans la base initiale
+     */
+    public function test_nombre_depart_pas_dans_la_base_initiale()
+    {
+        $convert = new Convertisseur("123");
+        $this->assertEquals(array(1,"Erreur, le nombre en entré n'est pas en base 2."), $convert->getResultatConversion("2","10"));
+    }
+
+    /**
+     * Probleme le nombre de la base initiale est incorrect
+     */
+    public function test_nombre_base_initiale_incorrect()
+    {
+        $convert = new Convertisseur("10");
+        $this->assertEquals(array(1,"La base initiale est incorrecte."), $convert->getResultatConversion("0","10"));
+        $this->assertEquals(array(1,"La base initiale est incorrecte."), $convert->getResultatConversion("1","16"));
+        $this->assertEquals(array(1,"La base initiale est incorrecte."), $convert->getResultatConversion("1000","2"));
+        $this->assertEquals(array(1,"La base initiale est incorrecte."), $convert->getResultatConversion("64","10"));
+    }
+
+    /**
+     * Probleme le nombre de la base finale est incorrect
+     */
+    public function test_nombre_base_finale_incorrect()
+    {
+        $convert = new Convertisseur("10");
+        $this->assertEquals(array(1,"La base finale est incorrecte."), $convert->getResultatConversion("10","0"));
+        $this->assertEquals(array(1,"La base finale est incorrecte."), $convert->getResultatConversion("16","1"));
+        $this->assertEquals(array(1,"La base finale est incorrecte."), $convert->getResultatConversion("2","1000"));
+        $this->assertEquals(array(1,"La base finale est incorrecte."), $convert->getResultatConversion("10","64"));
+    }
+
 }
 
 ?>
